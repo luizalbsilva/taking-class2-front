@@ -1,36 +1,32 @@
 import './App.css';
 import LoginComponent from "./LoginComponent";
 import React from "react";
+import {
+    BrowserRouter as Router,
+    Switch, Route
+} from "react-router-dom"
+import ProviderAuth from "./ProviderAuth";
+import PrivateRoute, {useAuth} from "./PrivateRoute";
 
-class App extends React.Component {
-    constructor(prop) {
-        super(prop);
-        this.state = {
-            jwt: '',
-            connected: false
-        }
-    }
+function App() {
+    let auth = useAuth();
 
-    doLogon(e) {
-        this.setState({
-            jwt: e,
-            connected: true
-        });
-    }
-
-    render() {
-        let c = undefined;
-        if(! this.state.connected) {
-            c = <LoginComponent onLogon={this.doLogon.bind(this)}></LoginComponent>
-        } else {
-            c = <h1>Bem vindo, Vossa Senhoria se encontra logado.</h1>
-        }
-        return (
+    return (
+        <ProviderAuth>
             <div className="container">
-                {c}
+            <Router>
+                <Switch>
+                    <Route path="/login">
+                        <LoginComponent auth={auth}></LoginComponent>
+                    </Route>
+                    <PrivateRoute path="/">
+                        <h1>Bem vindo, Vossa Senhoria se encontra logado.</h1>
+                    </PrivateRoute>
+                </Switch>
+            </Router>
             </div>
-        );
-    }
+        </ProviderAuth>
+    );
 }
 
 export default App;

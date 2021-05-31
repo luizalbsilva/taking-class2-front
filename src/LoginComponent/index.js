@@ -1,10 +1,10 @@
 import React from "react";
-
+import {withRouter} from "react-router-dom"
 import "./css/index.css";
 
-export default class LoginComponent extends React.Component {
-    constructor(prop) {
-        super(prop);
+class LoginComponentInterno extends React.Component {
+    constructor(props) {
+        super(props);
         this.state = {
             usuario: {
                 login: '',
@@ -28,7 +28,6 @@ export default class LoginComponent extends React.Component {
     }
 
     render() {
-
         let divErro = undefined;
         if (this.state.state.attemptError) {
             divErro = <span className="msgErro">Usuario e/ou senha Inválido(s)</span>;
@@ -42,14 +41,13 @@ export default class LoginComponent extends React.Component {
                 <label htmlFor="password" className="form-label">Password</label>
                 <input type="password" className="form-control" onChange={this.updatePassword.bind(this)}/>
                 {divErro}
-                <button className="btn btn-success" onClick={() => this.logon()}>Login</button>
+                <button className="btn btn-success" onClick={this.logon.bind(this)}>Login</button>
             </div>
         );
     }
 
-    logon() {
+    logon(e) {
         const {state, usuario} = this.state;
-
         fetch("http://localhost:4000/logon", {
             method: "post",
             headers: {"Content-type": "application/json; charset=UTF-8"},
@@ -60,7 +58,8 @@ export default class LoginComponent extends React.Component {
             if (deuCerto) {
                 value.json().then( body => {
                         if (typeof this.props.onLogon) {
-                            this.props.onLogon(body["access-token"]);
+                            this.props.auth.jwt = body["access-token"];
+                            this.props.history.replace("/")
                         }
                 })
             }
@@ -72,3 +71,6 @@ export default class LoginComponent extends React.Component {
 
     }
 }
+
+const LoginComponent = withRouter(LoginComponentInterno);
+export default LoginComponent;
