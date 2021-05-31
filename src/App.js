@@ -5,15 +5,13 @@ import {
     BrowserRouter as Router,
     Switch, Route
 } from "react-router-dom"
-import ProviderAuth from "./ProviderAuth";
 import PrivateRoute, {useAuth} from "./PrivateRoute";
 
 function App() {
     let auth = useAuth();
 
     return (
-        <ProviderAuth>
-            <div className="container">
+        <div className="container">
             <Router>
                 <Switch>
                     <Route path="/login">
@@ -24,8 +22,7 @@ function App() {
                     </PrivateRoute>
                 </Switch>
             </Router>
-            </div>
-        </ProviderAuth>
+        </div>
     );
 }
 

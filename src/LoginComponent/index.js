@@ -58,8 +58,9 @@ class LoginComponentInterno extends React.Component {
             if (deuCerto) {
                 value.json().then( body => {
                         if (typeof this.props.onLogon) {
-                            this.props.auth.jwt = body["access-token"];
-                            this.props.history.replace("/")
+                            const {history, auth} = this.props;
+                            auth.jwt = body["access-token"];
+                            history.replace("/")
                         }
                 })
             }
