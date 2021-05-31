@@ -1,0 +1,8 @@
+span.msgErro {
+    display: block;
+    color: red;
+}
+.login-div {
+    margin: 0 auto;
+    max-width: 300px;
+}
