@@ -1,19 +1,14 @@
 import {Route, Redirect} from "react-router-dom";
 import {useContext, createContext} from "react";
-
-export const authContext = createContext({});
-
-export function useAuth() {
-    return useContext(authContext);
-}
+import {useSelector} from "react-redux";
 
 export default function PrivateRoute({children, ...rest}) {
-    const auth = useAuth();
+    const session = useSelector(state => state.session );
     return (
         <Route
             {...rest}
             render={
-                () => auth.jwt ? children : (<Redirect to={{pathname: "/login"}} />)
+                () => session.jwt ? children : (<Redirect to={{pathname: "/login"}} />)
             }
         />
     );
