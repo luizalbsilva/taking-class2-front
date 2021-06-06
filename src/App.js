@@ -5,24 +5,22 @@ import {
     BrowserRouter as Router,
     Switch, Route
 } from "react-router-dom"
-import PrivateRoute, {useAuth} from "./PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
-    let auth = useAuth();
-
     return (
-        <div className="container">
-            <Router>
-                <Switch>
-                    <Route path="/login">
-                        <LoginComponent auth={auth}></LoginComponent>
-                    </Route>
-                    <PrivateRoute path="/">
-                        <h1>Bem vindo, Vossa Senhoria se encontra logado.</h1>
-                    </PrivateRoute>
-                </Switch>
-            </Router>
-        </div>
+            <div className="container">
+                <Router>
+                    <Switch>
+                        <Route path="/login">
+                            <LoginComponent />
+                        </Route>
+                        <PrivateRoute path="/">
+                            <h1>Bem vindo, Vossa Senhoria se encontra logado.</h1>
+                        </PrivateRoute>
+                    </Switch>
+                </Router>
+            </div>
     );
 }
 
